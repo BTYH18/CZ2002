@@ -1,0 +1,585 @@
+package controller;
+
+import model.*;
+import utility.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * Created by Sneha
+ */
+public class RoomController {
+
+    /*xls file names where data will be stored*/
+    private static Scanner input = new Scanner(System.in);
+    private final static String stored_File_Name = "rooms.txt";
+    private static ArrayList<Room> rooms;
+
+    //print the data of the statics of the rooms
+    public static void printAllRoomStatus() {
+        // counting constants declared for single rooms counting
+        int single_count = 0;
+        int v_single_count = 0;
+        ArrayList<String> vacant_single = new ArrayList<>();
+        ArrayList<String> occupied_single = new ArrayList<>();
+        ArrayList<String> reserved_single = new ArrayList<>();
+        ArrayList<String> undermaint_single = new ArrayList<>();
+
+        // counting constants declared for double rooms counting
+        int double_count = 0;
+        int v_double_count = 0;
+        ArrayList<String> vacant_double = new ArrayList<>();
+        ArrayList<String> occupied_double = new ArrayList<>();
+        ArrayList<String> reserved_double = new ArrayList<>();
+        ArrayList<String> undermain_double = new ArrayList<>();
+
+        // counting constants declared for deluxe rooms counting
+        int deluxe_count = 0;
+        int v_deluxe_count = 0;
+        ArrayList<String> vacant_deluxe = new ArrayList<>();
+        ArrayList<String> occupied_deluxe = new ArrayList<>();
+        ArrayList<String> reserved_deluxe = new ArrayList<>();
+        ArrayList<String> undermaint_deluxe = new ArrayList<>();
+
+        // counting constants declared for vip rooms counting
+        int vip_count = 0;
+        int v_vip_count = 0;
+        ArrayList<String> vacant_vip = new ArrayList<>();
+        ArrayList<String> occupied_vip = new ArrayList<>();
+        ArrayList<String> reserved_vip = new ArrayList<>();
+        ArrayList<String> undermaint_vip = new ArrayList<>();
+
+
+        System.out.println("\n===============================================");
+        System.out.println("                Room Statistic ");
+        System.out.println("===============================================");
+
+
+        /*Calculate room count and room vacant and get room nos
+        get number of free fixed and book rooms of this type
+        */
+
+        for (Room r : rooms) {
+            switch (r.getRoomType()) {
+                case Single_OnePerson:
+                    single_count++;
+                    switch (r.getRoomStatus()) {
+                        case Vacant_Free:
+                            v_single_count++;
+                            vacant_single.add(r.getRoomNo());
+                            break;
+                        case Fixed:
+                            occupied_single.add(r.getRoomNo());
+                            break;
+                        case Booked:
+                            reserved_single.add(r.getRoomNo());
+                            break;
+                        case under_maintainnance:
+                            undermaint_single.add(r.getRoomNo());
+                            break;
+                    }
+                    break;
+                    /*calculation and counting for room type of two  persons
+                     get number of free fixed and book rooms of this type
+                     */
+
+                case Double_TwoPersons:
+                    double_count++;
+                    switch (r.getRoomStatus()) {
+                        case Vacant_Free:
+                            v_double_count++;
+                            vacant_double.add(r.getRoomNo());
+                            break;
+                        case Fixed:
+                            occupied_double.add(r.getRoomNo());
+                            break;
+                        case Booked:
+                            reserved_double.add(r.getRoomNo());
+                            break;
+                        case under_maintainnance:
+                            undermain_double.add(r.getRoomNo());
+                            break;
+                    }
+                    break;
+                // break the condtion
+
+                    /*calculation and counting for room type of deluxe
+                    get number of free fixed and book rooms of this type
+                    */
+                case Deluxe:
+                    deluxe_count++;
+                    switch (r.getRoomStatus()) {
+                        case Vacant_Free:
+                            v_deluxe_count++;
+                            vacant_deluxe.add(r.getRoomNo());
+                            break;
+                        case Fixed:
+                            occupied_deluxe.add(r.getRoomNo());
+                            break;
+                        case Booked:
+                            reserved_deluxe.add(r.getRoomNo());
+                            break;
+                        case under_maintainnance:
+                            undermaint_deluxe.add(r.getRoomNo());
+                            break;
+                    }
+                    break;
+                    /*calculation and counting for room type of vips
+                    get number of free fixed and book rooms of this type
+                    */
+
+                case VIP:
+                    vip_count++;
+                    switch (r.getRoomStatus()) {
+                        case Vacant_Free:
+                            v_vip_count++;
+                            vacant_vip.add(r.getRoomNo());
+                            break;
+                        case Fixed:
+                            occupied_vip.add(r.getRoomNo());
+                            break;
+                        case Booked:
+                            reserved_vip.add(r.getRoomNo());
+                            break;
+                        case under_maintainnance:
+                            undermaint_vip.add(r.getRoomNo());
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        	/* counting the single rooms and checking the conditions if count is not 0 then
+        	 printing values from as array object*/
+        if (single_count != 0) {
+            System.out.println("Single : " + v_single_count + " out of " + single_count);
+            // check vacants room
+            if (vacant_single.size() != 0) {
+                System.out.print("Vacant :");
+                DataFunctions.printAllFromArray(vacant_single);
+            }
+            // check occupied room
+            if (occupied_single.size() != 0) {
+                System.out.print("\nOccupied :");
+                DataFunctions.printAllFromArray(occupied_single);
+            }
+            // check reserved room
+            if (reserved_single.size() != 0) {
+                System.out.print("\nReserved :");
+                DataFunctions.printAllFromArray(reserved_single);
+            }
+            // check undermaintainnace room
+            if (undermaint_single.size() != 0) {
+                System.out.print("\nUnder Maintenance :");
+                DataFunctions.printAllFromArray(undermaint_single);
+            }
+            System.out.println("\n");
+
+        }
+
+
+    	/* counting the double rooms and checking the conditions if count is not 0 then
+    	 printing values from as array object*/
+
+        if (double_count != 0) {
+            System.out.println("Double : " + v_double_count + " out of " + double_count);
+            // check  double vacants room
+
+            if (vacant_double.size() != 0) {
+                System.out.print("Vacant :");
+                //printing double
+                DataFunctions.printAllFromArray(vacant_double);
+            }
+            // check double occupied room
+
+            if (occupied_double.size() != 0) {
+                System.out.print("\nOccupied :");
+                DataFunctions.printAllFromArray(occupied_double);
+            }
+            // check double reserved room
+
+            if (reserved_double.size() != 0) {
+                System.out.print("\nReserved :");
+                DataFunctions.printAllFromArray(reserved_double);
+            }
+
+            // check double undermaintainnace room
+
+            if (undermain_double.size() != 0) {
+                System.out.print("\nUnder Maintenance :");
+                DataFunctions.printAllFromArray(undermain_double);
+            }
+            System.out.println("\n");
+        }
+
+    	/* counting the deluxe rooms and checking the conditions if count is not 0 then
+    	 printing values of rooms as object of an array.*/
+
+        if (deluxe_count != 0) {
+            System.out.println("Deluxe : " + v_deluxe_count + " out of " + deluxe_count);
+            // check deluxe vacant room
+            if (vacant_deluxe.size() != 0) {
+                System.out.print("Vacant :");
+                DataFunctions.printAllFromArray(vacant_deluxe);
+            }
+            // check deluxe occcupied room
+            if (occupied_deluxe.size() != 0) {
+                System.out.print("\nOccupied :");
+                DataFunctions.printAllFromArray(occupied_deluxe);
+            }
+            // check deluxe reserved room
+            if (reserved_deluxe.size() != 0) {
+                System.out.print("\nReserved :");
+                DataFunctions.printAllFromArray(reserved_deluxe);
+            }
+            // check deluxe undermaintainance room
+            if (undermaint_deluxe.size() != 0) {
+                System.out.print("\nUnder Maintenance :");
+                DataFunctions.printAllFromArray(undermaint_deluxe);
+            }
+
+            System.out.println("\n");
+        }
+        /* counting the vip rooms and checking the conditions if count is not 0 then
+   	 printing values of rooms as object of an array.*/
+
+        if (vip_count != 0) {
+            System.out.println("VIP Suite : " + v_vip_count + " out of " + vip_count);
+            // check vip vacant room
+            if (vacant_vip.size() != 0) {
+                System.out.print("Vacant :");
+                DataFunctions.printAllFromArray(vacant_vip);
+            }
+            // check vip occupied room
+            if (occupied_vip.size() != 0) {
+                System.out.print("\nOccupied :");
+                DataFunctions.printAllFromArray(occupied_vip);
+            }
+            // check vip reserved room
+            if (reserved_vip.size() != 0) {
+                System.out.print("\nReserved :");
+                DataFunctions.printAllFromArray(reserved_vip);
+            }
+            // check vip undermaintainnance room
+            if (undermaint_vip.size() != 0) {
+                System.out.print("\nUnder Maintenance :");
+                DataFunctions.printAllFromArray(undermaint_vip);
+            }
+            System.out.println("\n");
+        }
+    }
+
+    //Update the statis of rooms
+    public static void updateRoomSatus() {
+        String[] CmpStrings;
+        boolean cmpFlag;
+        String Status_String;
+        Room.R_Status Status;
+
+        Integer index = findRoom();
+        System.out.print("Current Room Status: ");
+        // types
+        CmpStrings = new String[]{"1", "2", "3", "4"};
+        do {
+            cmpFlag = false;
+            System.out.print("\nStatus Type \n1 Vacant\n2 Occupied\n3 Reserved\n4 Under Maintenance\nEnter Your Choice:");
+            Status_String = input.nextLine();
+            // if data given in input not find
+
+            if (!DataFunctions.stringContainsItems(Status_String, CmpStrings)) {
+                System.out.println(Status_String + " not in the list!");
+                cmpFlag = true;
+            }
+        } while (cmpFlag);// till condition fails assign the status as
+        Status = Room.R_Status.values()[Integer.parseUnsignedInt(Status_String) - 1];
+
+
+        //getting positon of the room
+        rooms.get(index).setRoomStatus(Status);
+    }
+
+    public static void updateRoomSatus(String roomNum, Room.R_Status status) {
+        rooms.get(findRoom(roomNum)).setRoomStatus(status);
+    }
+
+    //Adding New Room Detail
+    public static void addRoomDetail() {
+        System.out.println("===============================================");
+        System.out.println("      Adding Room Detail for Room ");
+        System.out.println("===============================================");
+
+        Integer index = findRoom();
+        String room_detail_name;
+
+        System.out.println();
+        System.out.println("Adding Room Detail for Room " + rooms.get(index).getRoomNo());
+        System.out.println();
+        System.out.print("Detail Name: ");
+        room_detail_name = input.nextLine();
+        //input added on below index
+
+
+        rooms.get(index).add_roomdetaills(room_detail_name);
+    }
+
+    //Remove Room Detail
+    public static void removeRoomDetail() {
+        String detailName;
+        System.out.println("===============================================");
+        System.out.println("      Removing Room Detail for Room ");
+        System.out.println("===============================================");
+
+        Integer rm_Index = findRoom();
+
+        if (rm_Index != -1) {
+            printRoomDetails(rm_Index);
+            System.out.print("Detail Name: ");
+            detailName = input.nextLine();
+            //  deleting index where roo found
+            Integer detail_Index = findDetail(rm_Index, detailName);
+
+            if (detail_Index != -1) {
+                rooms.get(rm_Index).delete_roomdetaills(detail_Index + 1);
+                System.out.println("Successfully remove " + detailName + " from " + rooms.get(rm_Index).getRoomNo());
+            } else {
+                System.out.println("No Such Detail!");
+            }
+        } else {
+            System.out.println("Room Not Found!");
+        }
+    }
+
+    //Edit Room Detail
+    public static void editRoomDetail() {
+        String detailName;
+        String editedDetailName;
+        System.out.println("\n===============================================");
+        System.out.println("         Edit Room Detail for Room ");
+        System.out.println("===============================================");
+
+        Integer rm_Index = findRoom();
+
+        if (rm_Index != -1) {
+            printRoomDetails(rm_Index);
+            System.out.print("Detail Name: ");
+            detailName = input.nextLine();
+            // getting input and find it and edit it.
+            Integer detail_Index = findDetail(rm_Index, detailName);
+
+            if (detail_Index != -1) {
+                System.out.print("New Detail Name: ");
+                editedDetailName = input.nextLine();
+                rooms.get(rm_Index).getRoomDetail().set(detail_Index, editedDetailName);
+                System.out.println("Successfully edit " + detailName + " to " + editedDetailName + " from " + rooms.get(rm_Index).getRoomNo());
+            }// if not found then
+            else {
+                System.out.println("No Such Detail!");
+            }
+        } else {
+            System.out.println("Room Not Found!");
+        }
+    }
+
+    //Print Room Detail
+    public static void printRoomDetails() {
+        System.out.println("\n===============================================");
+        System.out.println("         Print Room Detail for Room ");
+        System.out.println("===============================================");
+
+        Integer rm_Index = findRoom();
+
+        if (rm_Index != -1) {
+            printRoomDetails(rm_Index);
+
+        } else {
+            System.out.println("Room Not Found!");
+        }
+    }
+
+    // status print
+    public static Room.R_Status getStatus(String RoomNum) {
+        Integer index = findRoom(RoomNum);
+
+        return rooms.get(index).getRoomStatus();
+    }
+
+    //type
+    public static Room.R_TYPE getRoomType(String RoomNum) {
+        Integer index = findRoom(RoomNum);
+
+        return rooms.get(index).getRoomType();
+    }
+
+    //for room no
+    public static Integer findRoom(String RoomNum) {
+        //For each Room in Rooms
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getRoomNo().toLowerCase().equals(RoomNum.toLowerCase())) {
+                return i;
+            }
+        }
+
+        System.out.println("No Room " + RoomNum + " FOUND!");
+        return -1;
+
+    }
+
+    private static Integer findRoom() {
+        System.out.print("Enter Room Number: ");
+        String RoomNum = input.nextLine();
+
+        //For each Room in Rooms
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getRoomNo().toLowerCase().equals(RoomNum.toLowerCase())) {
+                return i;
+            }
+        }
+
+        System.out.println("No Room " + RoomNum + " FOUND!");
+        return -1;
+
+    }
+
+    private static Integer findDetail(Integer room_Index, String detailName) {
+        //For each room detail in room Details
+        for (int i = 0; i < rooms.get(room_Index).getRoomDetail().size(); i++) {
+            if (rooms.get(room_Index).getRoomDetail().get(i).toLowerCase().equals(detailName.toLowerCase())) {
+                return i;
+            }
+        }
+
+        System.out.println("No Detail " + detailName + " FOUND!");
+        return -1;
+    }
+
+    private static void printRoomDetails(Integer index) {
+        System.out.println("\n===============================================");
+        System.out.println("Room Detail for Room " + rooms.get(index).getRoomNo() + " , " + rooms.get(index).getRoomType() + " , " + rooms.get(index).getRoomStatus());
+        System.out.println("===============================================");
+        System.out.println("Detail Name  ");
+        System.out.println("-----------  ");
+
+        for (int i = 0; i < rooms.get(index).getRoomDetail().size(); i++) {
+            System.out.format("%-12s\n", rooms.get(index).getRoomDetail().get(i));
+        }
+    }
+
+
+    public static void addNewRoom() {
+        String Room_No;
+        String Rm_Type_Str;
+        Room.R_TYPE Rm_Type;
+        String Rm_Stat_Str;
+        Room.R_Status Rm_Stat;
+        String rm_Detail_name;
+        String rm_Detail_status;
+        ArrayList<String> room_Detail = new ArrayList<>();
+        String[] CmpStrings;
+        boolean cmpFlag;
+
+        //Room(String room_No, room_Type rm_Type, room_Status rm_Stat)
+
+        System.out.println("===============================================");
+        System.out.println("Creating New Room. \nPlease Fill Up The Form :");
+        System.out.println("===============================================");
+
+        ///////////
+        //Room_No//
+        ///////////
+        System.out.print("Room Number: ");
+        Room_No = input.nextLine();
+
+        /////////////////
+        //Identity Type//
+        /////////////////
+        CmpStrings = new String[]{"1", "2", "3", "4"};
+        do {
+            cmpFlag = false;
+            System.out.print("\nRoom Type \n1 Single\n2 Double\n3 Deluxe\n4 VIP_Suite\nEnter Your Choice:");
+            Rm_Type_Str = input.nextLine();
+
+
+            if (!DataFunctions.stringContainsItems(Rm_Type_Str, CmpStrings)) {
+                System.out.println(Rm_Type_Str + " not in the list!");
+                cmpFlag = true;
+            }
+        } while (cmpFlag);
+        Rm_Type = Room.R_TYPE.values()[Integer.parseUnsignedInt(Rm_Type_Str) - 1];
+
+        //Data Dumping for Java garbrage collection to destroy
+        CmpStrings = null;
+
+        System.out.println("\nRoom Detail:");
+        do {
+            System.out.print("Room Detail Name (Enter 1 to stop adding) : ");
+            rm_Detail_name = input.nextLine();
+
+            if (!rm_Detail_name.equals("1"))
+                room_Detail.add(rm_Detail_name);
+        } while (!rm_Detail_name.equals("1"));
+
+        System.out.println();
+        rooms.add(new Room(Room_No, Rm_Type, Room.R_Status.Vacant_Free, room_Detail));
+    }
+
+    public static void deleteRoom() {
+        int index = findRoom();
+        try {
+            rooms.remove(index);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.print("No Room Found!");
+        }
+    }
+
+
+    //Writing object in binary format to the file -- Serialization
+    public static void saveData() {
+        try {
+            FileWriter FileWriter = new FileWriter(stored_File_Name);
+            StringBuilder sb = new StringBuilder();
+            for (Room room : rooms){
+                sb.append(room.getRoomNo()).append(",");
+                sb.append(room.getRoomStatus()).append(",");
+                sb.append(room.getRoomDetail()).append(",");
+                sb.append(room.getRoomType()).append(",");
+                sb.append("\n");
+            }
+            FileWriter.write(sb.toString());
+            FileWriter.flush();
+            FileWriter.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Reading object from file and cast to Object -- De-Serialization
+    public static void loadData() {
+        rooms = new ArrayList<>();
+
+        try {
+            // Reading the object from a file
+            // FileReader fileReader = new FileReader(stored_File_Name);
+            File fileReader = new File(stored_File_Name);
+            Scanner scanner = new Scanner(fileReader);
+            while (scanner.hasNextLine()) {
+                String dataPerLine = scanner.nextLine();
+                String[] arrSplit = dataPerLine.split(",");
+                for (int i=0; i < arrSplit.length; i++) {
+                    rooms.add(new Room(arrSplit[0], Room.R_TYPE.values()[Integer.parseUnsignedInt(arrSplit[1])], Room.R_Status.values()[Integer.parseUnsignedInt(arrSplit[2])]));
+                }
+            }
+            scanner.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            //  check the conditions after loading the data if room is null
+            if (rooms.isEmpty()) {
+                rooms = new ArrayList<Room>();
+            }
+        }
+    }
+
+}
